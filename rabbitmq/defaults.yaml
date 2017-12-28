@@ -1,0 +1,9 @@
+rabbitmq:
+  manage_repo: False
+  service_enabled: True
+  service_reload: False
+  remove_guest_user: True
+  ulimit: 8192
+  bind:
+    address: '0.0.0.0'
+    port: 5672

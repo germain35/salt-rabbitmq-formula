@@ -1,0 +1,54 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+{%- set os         = salt['grains.get']('os') %}
+{%- set osrelease  = salt['grains.get']('osrelease') %}
+{%- set oscodename = salt['grains.get']('oscodename') %}
+
+{## Start with defaults from defaults.yaml ##}
+{% import_yaml 'rabbitmq/defaults.yaml' as default_settings %}
+
+{##
+Setup variables using grains['os_family'] based logic, only add key:values
+that differ from what is in defaults.yaml
+##}
+{% set os_family_map = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['rabbitmq-server', '   '],
+        'service': 'rabbitmq-server',
+        'user': 'rabbitmq',
+        'group': 'rabbitmq',
+        'home_dir': '/var/lib/rabbitmq',
+        'default_file': '/etc/default/rabbitmq-server'
+        'config_file': '/etc/rabbitmq/rabbitmq.config',
+        'env_file': '/etc/rabbitmq/rabbitmq-env.conf',
+        'limits_file': '/etc/systemd/system/rabbitmq-server.service.d/limits.conf',
+        'cookie_file': '/var/lib/rabbitmq/.erlang.cookie',
+        'erlang_repo': {
+            'humanname': 'erlang',
+            'name': 'deb https://packages.erlang-solutions.com/'  ~ os|lower ~ ' ' ~ oscodename|lower ~ ' contrib',
+            'file': '/etc/apt/sources.list.d/erlang.list',
+            'key_url': 'https://packages.erlang-solutions.com/'  ~ os|lower ~ '/erlang_solutions.asc',
+        },
+        'repo': {
+            'humanname': 'rabbitmq',
+            'name': 'deb https://packagecloud.io/rabbitmq/rabbitmq-server/'  ~ os|lower ~ '/ ' ~ oscodename|lower ~ ' main',
+            'file': '/etc/apt/sources.list.d/rabbitmq.list',
+            'key_url': 'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey',
+        },
+    },
+}
+, grain="os_family"
+, merge=salt['pillar.get']('rabbitmq:lookup')
+, default='Debian') %}
+
+{## Merge the flavor_map to the default settings ##}
+{% do default_settings.rabbitmq.update(os_family_map) %}
+
+{## Merge in rabbitmq:lookup pillar ##}
+{% set rabbitmq = salt['pillar.get'](
+        'rabbitmq',
+        default=default_settings.rabbitmq,
+        merge=True
+    )
+%}
