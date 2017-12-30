@@ -26,7 +26,6 @@ rabbitmq_erlang_repo:
     - require_in:
       - pkgrepo: rabbitmq_repo
   {%- endif %}
-  {%- endif %}
 
   {%- if rabbitmq.repo and rabbitmq.repo is mapping %}
 rabbitmq_repo:
