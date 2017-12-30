@@ -27,6 +27,7 @@ rabbitmq_user_{{ params.user }}:
         - '.*'
         - '.*'
         - '.*'
+        
     {%- for policy in params.get('policies', []) %}
 rabbitmq_policy_{{ vhost }}_{{ policy.name }}:
   rabbitmq_policy.present:

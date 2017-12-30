@@ -12,11 +12,12 @@ rabbitmq_repo_pkgs:
     - pkgs: 
       - apt-transport-https
       - debian-archive-keyring
+      - gnupg
     - require_in:
       - pkgrepo: rabbitmq_repo
   {%- endif %}
   
-  {%- if 'erlang_repo' in rabbitmq and rabbitmq.erlang_repo is mapping %}
+  {%- if rabbitmq.erlang_repo is defined and rabbitmq.erlang_repo is mapping %}
 rabbitmq_erlang_repo:
   pkgrepo.managed:
     {%- for k, v in rabbitmq.erlang_repo.iteritems() %}
@@ -27,7 +28,7 @@ rabbitmq_erlang_repo:
   {%- endif %}
   {%- endif %}
 
-  {%- if 'repo' in rabbitmq and rabbitmq.repo is mapping %}
+  {%- if rabbitmq.repo and rabbitmq.repo is mapping %}
 rabbitmq_repo:
   pkgrepo.managed:
     {%- for k, v in rabbitmq.repo.iteritems() %}
