@@ -10,4 +10,4 @@
 # documentation for ulimit (in man bash) for more information.
 #
 
-ulimit -n {{ rabbitmq.ulimit }}
+ulimit -n {{ rabbitmq.config.ulimit }}
