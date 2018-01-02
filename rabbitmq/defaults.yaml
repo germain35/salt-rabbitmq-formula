@@ -8,7 +8,7 @@ rabbitmq:
     bind:
       address: '0.0.0.0'
       port: 5672
-    mangement:
+    management:
       port: 15672
     stomp:
       port: 6163
