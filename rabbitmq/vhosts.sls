@@ -13,11 +13,10 @@ rabbitmq_vhost_{{ vhost }}:
     - name: {{ vhost }}
     - require:
       - service: rabbitmq_service
-    - require_in:
-      - rabbitmq_user: rabbitmq_user_{{ params.user }}
     {%- endif %}
 
-rabbitmq_user_{{ params.user }}:
+{%- if params.user is defined %}
+rabbitmq_vhost_{{ vhost }}_user_{{ params.user }}:
   rabbitmq_user.present:
     - name: {{ params.user }}
     - password: {{ params.password }}
@@ -27,7 +26,10 @@ rabbitmq_user_{{ params.user }}:
         - '.*'
         - '.*'
         - '.*'
-        
+    - require:
+      - rabbitmq_vhost: rabbitmq_vhost_{{ vhost }}
+{%- endif %}
+
     {%- for policy in params.get('policies', []) %}
 rabbitmq_policy_{{ vhost }}_{{ policy.name }}:
   rabbitmq_policy.present:
@@ -46,12 +48,6 @@ rabbitmq_policy_{{ vhost }}_{{ policy.name }}:
 rabbitmq_vhost_{{ vhost }}_absent:
   rabbitmq_vhost.absent:
     - name: {{ vhost }}
-    - require:
-      - service: rabbitmq_service
-
-rabbitmq_user_{{ params.user }}_absent:
-  rabbitmq_user.absent:
-    - name: {{ params.user }}
     - require:
       - service: rabbitmq_service
 
