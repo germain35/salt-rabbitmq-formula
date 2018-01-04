@@ -17,7 +17,7 @@ rabbitmq_repo_pkgs:
       - pkgrepo: rabbitmq_repo
   {%- endif %}
   
-  {%- if rabbitmq.erlang_repo is defined and rabbitmq.erlang_repo is mapping %}
+  {%- if rabbitmq.manage_erlang_repo and rabbitmq.erlang_repo is defined and rabbitmq.erlang_repo is mapping %}
 rabbitmq_erlang_repo:
   pkgrepo.managed:
     {%- for k, v in rabbitmq.erlang_repo.iteritems() %}

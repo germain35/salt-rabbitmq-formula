@@ -1,5 +1,6 @@
 rabbitmq:
   manage_repo: False
+  manage_erlang_repo: False
   service_enabled: True
   service_reload: False
   remove_guest_user: False
