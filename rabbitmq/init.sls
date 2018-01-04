@@ -8,3 +8,4 @@ include:
   - rabbitmq.users
   - rabbitmq.config
   - rabbitmq.service
+  - rabbitmq.admin
