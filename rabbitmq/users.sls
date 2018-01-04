@@ -11,13 +11,13 @@ rabbitmq_user_admin:
     - password: {{ rabbitmq.admin.password }}
     - force: True
     - tags: administrator
+      {%- for vhost, perms in params.get('perms', {}).iteritems() %}
     - perms:
-      {%- for vhost, params in rabbitmq.get('vhosts', {}).iteritems() %}
       - '{{ vhost }}':
-        - '.*'
-        - '.*'
-        - '.*'
-      {%- endfor %}
+        {%- for perm in perms %}
+        - {{ perm }}
+        {%- endfor %}
+    {%- endfor %}
     - require:
       - service: rabbitmq_service
 
@@ -38,12 +38,12 @@ rabbitmq_user_{{ user }}:
     - name: {{ user }}
     - password: {{ params.password }}
     - force: True
-    {%- for vhost, vhost_params in params.get('vhosts', {}).iteritems() %}
+    {%- for vhost, perms in params.get('perms', {}).iteritems() %}
     - perms:
       - '{{ vhost }}':
-        - '.*'
-        - '.*'
-        - '.*'
+        {%- for perm in perms %}
+        - {{ perm }}
+        {%- endfor %}
     {%- endfor %}
 {%- endfor %}
 
