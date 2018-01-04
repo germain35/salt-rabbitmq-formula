@@ -5,6 +5,12 @@ include:
 
 {%- if rabbitmq.admin_enabled %}
 rabbitmq_admin_bin:
+  file.directory:
+    - name: /usr/local/bin
+    - user: root
+    - group: root
+    - mode: 755
+    - makedirs: True
   cmd.run:
     - name: curl http://localhost:{{ rabbitmq.config.management.port }}/cli/rabbitmqadmin > {{ rabbitmq.admin_bin }}
     - unless: test -x {{ rabbitmq.admin_bin }}
