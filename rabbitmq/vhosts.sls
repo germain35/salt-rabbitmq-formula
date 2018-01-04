@@ -19,7 +19,9 @@ rabbitmq_vhost_{{ vhost }}:
 rabbitmq_vhost_{{ vhost }}_user_{{ params.user }}:
   rabbitmq_user.present:
     - name: {{ params.user }}
+    {%- if params.password is defined %}
     - password: {{ params.password }}
+    {%- endif %}
     - force: True
     - perms:
       - '{{ vhost }}':

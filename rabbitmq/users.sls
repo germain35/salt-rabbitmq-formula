@@ -38,7 +38,9 @@ rabbitmq_user_guest_absent:
 rabbitmq_user_{{ user }}:
   rabbitmq_user.present:
     - name: {{ user }}
+    {%- if params.password is defined %}
     - password: {{ params.password }}
+    {%- endif %}
     - force: True
     {%- if params.perms is defined and params.perms is mapping %}
     - perms:

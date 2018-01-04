@@ -8,7 +8,6 @@ rabbitmq_admin_dir:
   file.directory:
     - name: /usr/local/bin
     - user: root
-    - group: root
     - mode: 755
     - makedirs: True
 
@@ -22,6 +21,5 @@ rabbitmq_admin_bin:
   file.managed:
     - name: {{ rabbitmq.admin_bin }}
     - user: root
-    - group: root
     - mode: 755
 {%- endif %}
