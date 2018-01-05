@@ -6,7 +6,7 @@ include:
 rabbitmq_packages:
   pkg.installed:
     - pkgs: {{ rabbitmq.pkgs }}
+    {%- if rabbitmq.manage_repo %}
     - require:
-      {%- if rabbitmq.manage_repo %}
       - sls: rabbitmq.repo
-      {%- endif %}
+    {%- endif %}
