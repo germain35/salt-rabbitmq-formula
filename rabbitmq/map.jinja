@@ -14,7 +14,8 @@ that differ from what is in defaults.yaml
 ##}
 {% set os_family_map = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['curl', 'rabbitmq-server'],
+        'tools_pkgs': ['curl'],
+        'pkgs': ['rabbitmq-server'],
         'service': 'rabbitmq-server',
         'user': 'rabbitmq',
         'group': 'rabbitmq',
