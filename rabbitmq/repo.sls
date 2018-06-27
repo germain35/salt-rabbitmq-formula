@@ -20,7 +20,7 @@ rabbitmq_repo_pkgs:
   {%- if rabbitmq.manage_erlang_repo and rabbitmq.erlang_repo is defined and rabbitmq.erlang_repo is mapping %}
 rabbitmq_erlang_repo:
   pkgrepo.managed:
-    {%- for k, v in rabbitmq.erlang_repo.iteritems() %}
+    {%- for k, v in rabbitmq.erlang_repo.items() %}
     - {{k}}: {{v}}
     {%- endfor %}
     - require_in:
@@ -30,7 +30,7 @@ rabbitmq_erlang_repo:
   {%- if rabbitmq.repo and rabbitmq.repo is mapping %}
 rabbitmq_repo:
   pkgrepo.managed:
-    {%- for k, v in rabbitmq.repo.iteritems() %}
+    {%- for k, v in rabbitmq.repo.items() %}
     - {{k}}: {{v}}
     {%- endfor %}
   {%- endif %}

@@ -13,7 +13,7 @@ rabbitmq_user_admin:
     - tags: administrator
     {%- if params.perms is defined and params.perms is mapping %}
     - perms:
-      {%- for vhost, perms in params.perms.iteritems() %}
+      {%- for vhost, perms in params.perms.items() %}
       - '{{ vhost }}':
         {%- for perm in perms %}
         - {{ perm }}
@@ -34,7 +34,7 @@ rabbitmq_user_guest_absent:
       - service: rabbitmq_service
 {%- endif %}
 
-{%- for user, params in rabbitmq.get('users', {}).iteritems() %}
+{%- for user, params in rabbitmq.get('users', {}).items() %}
 rabbitmq_user_{{ user }}:
   rabbitmq_user.present:
     - name: {{ user }}
@@ -44,7 +44,7 @@ rabbitmq_user_{{ user }}:
     - force: True
     {%- if params.perms is defined and params.perms is mapping %}
     - perms:
-      {%- for vhost, perms in params.perms.iteritems() %}
+      {%- for vhost, perms in params.perms.items() %}
       - '{{ vhost }}':
         {%- for perm in perms %}
         - {{ perm }}

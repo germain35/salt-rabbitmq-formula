@@ -4,7 +4,7 @@ include:
   - rabbitmq.install
   - rabbitmq.service
 
-{%- for vhost, params in rabbitmq.get('vhosts', {}).iteritems() %}
+{%- for vhost, params in rabbitmq.get('vhosts', {}).items() %}
   {%- if params.enabled %}
     {%- if vhost != '/' %}
 
